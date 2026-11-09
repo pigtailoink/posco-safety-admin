@@ -41,7 +41,8 @@ let visibleRecords=[];
 let columns=[];
 const $=id=>document.getElementById(id);
 const labels={submitted_at:'수료일시',created_at:'등록일시',date:'날짜',completed_at:'수료일시',completion_date:'수료일',completion_time:'수료시간',timestamp:'기록일시',name:'이름',full_name:'이름',user_name:'이름',visitor_name:'방문자 이름',company:'소속업체',company_name:'소속업체',organization:'소속업체',affiliation:'소속',business:'업체명',phone:'연락처',phone_number:'연락처',mobile:'휴대전화',tel:'전화번호',contact:'연락처',email:'이메일',site:'현장명',site_name:'현장명',workplace:'현장명',education:'교육명',training:'교육명',course:'교육명',status:'수료상태',result:'결과',score:'점수',signature:'서명',birth:'생년월일',birthdate:'생년월일',birth_date:'생년월일',id:'기록번호',form_name:'양식명',reason:'방문목적',visit_method:'출입방법',vehicle_number:'차량번호'};
-const labelOf=key=>labels[key]||labels[key.toLowerCase().replace(/([a-z])([A-Z])/g,'$1_$2').replace(/[\s-]+/g,'_')]||key;
+const normalizeKey = key => String(key).trim().replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase().replace(/[\s-]+/g, '_');
+const labelOf = key => labels[normalizeKey(key)] || key;
 const dateKeys=['submitted_at','created_at','completed_at','timestamp','completion_date'];
 function parseDate(record){for(const key of dateKeys){if(record[key]){const d=new Date(record[key]);if(!Number.isNaN(d.getTime()))return d;}}return null;}
 function formatValue(key,value){if(value===null||value===undefined)return '';if(Array.isArray(value))return value.join(', ');if(typeof value==='object')return JSON.stringify(value);if(dateKeys.includes(key)){const d=new Date(value);if(!Number.isNaN(d.getTime()))return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(d);}return String(value);}
@@ -53,7 +54,7 @@ $('loginForm').addEventListener('submit',async event=>{
 });
 function openDashboard(){
  $('login').classList.add('hidden');$('dashboard').classList.remove('hidden');$('searchInput').value='';
- columns=[...new Set(records.flatMap(r=>Object.keys(r)))].filter(key=>key.toLowerCase()!=='education_date');
+ columns=[...new Set(records.flatMap(r=>Object.keys(r)))].filter(key=>key.trim().toLowerCase()!=='education_date');
  records.sort((a,b)=>(parseDate(b)?.getTime()||0)-(parseDate(a)?.getTime()||0));
  $('totalCount').textContent=records.length.toLocaleString('ko-KR')+'명';
  const today=kstDay(new Date());$('todayCount').textContent=records.filter(r=>{const d=parseDate(r);return d&&kstDay(d)===today;}).length.toLocaleString('ko-KR')+'명';
