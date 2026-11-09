@@ -1,202 +1,80 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>포스코이앤씨 안전교육 관리자</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f5f8;
-      color: #202938;
-    }
-    .container {
-      max-width: 440px;
-      margin: 100px auto;
-      padding: 20px;
-    }
-    .card {
-      background: white;
-      padding: 36px 28px;
-      border-radius: 16px;
-      box-shadow: 0 5px 24px #00000012;
-      text-align: center;
-    }
-    h1 { font-size: 22px; }
-    p { color: #657080; font-size: 14px; }
-    input, button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 16px;
-      border-radius: 8px;
-      font-size: 15px;
-    }
-    input { border: 1px solid #ccd2db; }
-    button {
-      background: #005bac;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:disabled { opacity: .6; }
-    #message { color: #c0392b; }
-    #dashboard { display: none; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      margin-top: 20px;
-    }
-    th, td {
-      border-bottom: 1px solid #ddd;
-      padding: 10px;
-      text-align: left;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>포스코이앤씨 | 안전교육 수료자 관리</title>
+<style>
+:root{font-family:'Malgun Gothic','Apple SD Gothic Neo',Arial,sans-serif;color:#18263b;background:#f3f6fa}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:wait}.hidden{display:none!important}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px}.login-card{width:min(100%,420px);background:#fff;border:1px solid #e4eaf1;border-radius:20px;box-shadow:0 16px 50px #17365a12;padding:40px 32px}.brand{display:flex;align-items:center;gap:12px}.brand-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:#075aab;color:#fff;font-size:23px;font-weight:800}.brand small{display:block;color:#68798e;font-size:12px;letter-spacing:.04em}.brand strong{display:block;font-size:19px}.login-card h1{font-size:25px;margin:34px 0 9px}.muted{color:#718095;font-size:14px}.field{width:100%;padding:13px 15px;border:1px solid #cbd5e2;border-radius:10px;outline:none;background:white}.field:focus{border-color:#0766bb;box-shadow:0 0 0 3px #0766bb16}.login-card .field{margin-top:18px}.btn{border:0;border-radius:10px;padding:12px 18px;font-weight:700}.primary{background:#075aab;color:#fff}.secondary{background:#eaf1f8;color:#1a4f80}.login-card .btn{width:100%;margin-top:12px}.error{color:#c32d36;font-size:13px;min-height:18px}.topbar{background:#fff;border-bottom:1px solid #e1e8f0}.top-inner{max-width:1240px;margin:auto;padding:19px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}.top-inner .brand strong{font-size:17px}.content{max-width:1240px;margin:0 auto;padding:32px 24px 60px}.page-head h1{font-size:27px;margin:0 0 7px}.page-head p{margin:0}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:25px 0}.stat{background:#fff;border:1px solid #e2e8f0;border-radius:15px;padding:22px 24px}.stat .label{color:#65758b;font-size:14px}.stat .value{font-size:32px;font-weight:800;margin-top:9px}.panel{background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden}.panel-head{padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.panel-head h2{font-size:19px;margin:0}.tools{padding:0 24px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.search{max-width:390px;flex:1 1 220px}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:15px 17px;border-bottom:1px solid #edf0f4;white-space:nowrap}th{background:#f7f9fc;color:#4c5f76;font-weight:700}tbody tr:hover{background:#f8fbff}td{color:#2b394c}.empty{text-align:center;color:#7a8796;padding:44px 20px}.footer-note{color:#8491a1;font-size:12px;padding:15px 24px}.pill{display:inline-block;border-radius:100px;background:#e9f7ee;color:#187747;font-weight:700;padding:5px 10px}.status{color:#7c8da2;font-size:13px}@media(max-width:640px){.top-inner{padding:14px 16px}.content{padding:24px 14px}.page-head h1{font-size:23px}.stats{gap:10px}.stat{padding:18px}.stat .value{font-size:27px}.panel-head,.tools{padding-left:16px;padding-right:16px}.login-card{padding:32px 22px}th,td{padding:12px}.top-inner .brand strong{font-size:14px}}
+</style>
 </head>
 <body>
-  <main class="container">
-    <section class="card" id="login">
-      <h1>포스코이앤씨</h1>
-      <h2>안전교육 관리자</h2>
-      <p>관리자 비밀번호를 입력하세요.</p>
-      <form id="loginForm">
-        <input id="password" type="password"
-          placeholder="관리자 비밀번호"
-          autocomplete="current-password" required>
-        <button id="loginButton" type="submit">
-          관리자 로그인
-        </button>
-      </form>
-      <p id="message" role="alert"></p>
-    </section>
-
-    <section class="card" id="dashboard">
-      <h2>안전교육 수료자 관리</h2>
-      <p id="count"></p>
-      <button id="exportButton">CSV 다운로드</button>
-      <button id="logoutButton">로그아웃</button>
-      <div style="overflow-x:auto">
-        <table id="records"></table>
-      </div>
+<main id="login" class="login-wrap">
+  <section class="login-card">
+    <div class="brand"><div class="brand-icon">P</div><div><small>POSCO E&amp;C · SAFETY</small><strong>포스코이앤씨</strong></div></div>
+    <h1>안전교육 관리자 로그인</h1>
+    <p class="muted">관리자 비밀번호를 입력해 주세요.</p>
+    <form id="loginForm">
+      <input class="field" id="password" type="password" placeholder="관리자 비밀번호" autocomplete="current-password" required>
+      <button class="btn primary" id="loginButton" type="submit">관리자 로그인</button>
+    </form>
+    <p id="message" class="error" role="alert"></p>
+  </section>
+</main>
+<div id="dashboard" class="hidden">
+  <header class="topbar"><div class="top-inner"><div class="brand"><div class="brand-icon">P</div><div><small>POSCO E&amp;C · SAFETY</small><strong>안전교육 수료자 관리</strong></div></div><button class="btn secondary" id="logoutButton" type="button">로그아웃</button></div></header>
+  <main class="content">
+    <div class="page-head"><h1>안전교육 수료 현황</h1><p class="muted">방문자 안전교육 이수 기록을 조회하고 관리합니다.</p></div>
+    <div class="stats"><div class="stat"><div class="label">전체 수료 인원</div><div class="value" id="totalCount">0명</div></div><div class="stat"><div class="label">오늘 수료 인원</div><div class="value" id="todayCount">0명</div></div></div>
+    <section class="panel"><div class="panel-head"><h2>수료자 명단</h2><button class="btn primary" id="exportButton" type="button">↓ 엑셀(CSV) 다운로드</button></div>
+      <div class="tools"><input class="field search" id="searchInput" type="search" placeholder="이름, 업체명, 연락처 등 검색" aria-label="수료자 검색"><span class="status" id="resultCount"></span></div>
+      <div class="table-scroll"><table id="records"><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table></div>
+      <div class="footer-note">표시되는 수료 기록은 Netlify Forms에서 가져옵니다. 현재 서버 설정상 한 번에 최대 100건을 조회합니다.</div>
     </section>
   </main>
-
-  <script>
-    const endpoint = "/.netlify/functions/admin";
-    let records = [];
-
-    const login = document.getElementById("login");
-    const dashboard = document.getElementById("dashboard");
-    const message = document.getElementById("message");
-
-    document.getElementById("loginForm")
-      .addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const button = document.getElementById("loginButton");
-        button.disabled = true;
-        message.textContent = "";
-
-        try {
-          const password =
-            document.getElementById("password").value;
-
-          const response = await fetch(endpoint, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            credentials: "same-origin",
-            body: JSON.stringify({ password })
-          });
-
-          if (!response.ok) {
-            throw new Error(
-              response.status === 401
-                ? "비밀번호가 올바르지 않습니다."
-                : "서버 연결을 확인해 주세요."
-            );
-          }
-
-          const data = await response.json();
-          records = data.records || [];
-          showDashboard();
-        } catch (error) {
-          message.textContent = error.message;
-        } finally {
-          button.disabled = false;
-        }
-      });
-
-    function showDashboard() {
-      login.style.display = "none";
-      dashboard.style.display = "block";
-      document.getElementById("count").textContent =
-        "전체 수료자: " + records.length + "명";
-
-      const table = document.getElementById("records");
-      table.replaceChildren();
-
-      if (!records.length) {
-        table.textContent = "수료 기록이 없습니다.";
-        return;
-      }
-
-      const keys = Object.keys(records[0]);
-      const header = document.createElement("tr");
-
-      keys.forEach(key => {
-        const th = document.createElement("th");
-        th.textContent = key;
-        header.appendChild(th);
-      });
-      table.appendChild(header);
-
-      records.forEach(record => {
-        const tr = document.createElement("tr");
-        keys.forEach(key => {
-          const td = document.createElement("td");
-          td.textContent = record[key] ?? "";
-          tr.appendChild(td);
-        });
-        table.appendChild(tr);
-      });
-    }
-
-    document.getElementById("exportButton")
-      .addEventListener("click", () => {
-        if (!records.length) return;
-        const keys = Object.keys(records[0]);
-        const escapeCSV = value =>
-          '"' + String(value ?? "").replace(/"/g, '""') + '"';
-        const rows = [
-          keys.map(escapeCSV).join(","),
-          ...records.map(record =>
-            keys.map(key => escapeCSV(record[key])).join(",")
-          )
-        ];
-        const blob = new Blob(
-          ["\uFEFF" + rows.join("\r\n")],
-          { type: "text/csv;charset=utf-8" }
-        );
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "safety-completions.csv";
-        a.click();
-        URL.revokeObjectURL(url);
-      });
-
-    document.getElementById("logoutButton")
-      .addEventListener("click", () => {
-        records = [];
-        dashboard.style.display = "none";
-        login.style.display = "block";
-        document.getElementById("password").value = "";
-      });
-  </script>
+</div>
+<script>
+'use strict';
+const endpoint='/.netlify/functions/admin';
+let records=[];
+let visibleRecords=[];
+let columns=[];
+const $=id=>document.getElementById(id);
+const labels={submitted_at:'수료일시',created_at:'등록일시',date:'날짜',completed_at:'수료일시',completion_date:'수료일',completion_time:'수료시간',timestamp:'기록일시',name:'이름',full_name:'이름',user_name:'이름',visitor_name:'방문자 이름',company:'소속업체',company_name:'소속업체',organization:'소속업체',affiliation:'소속',business:'업체명',phone:'연락처',phone_number:'연락처',mobile:'휴대전화',tel:'전화번호',contact:'연락처',email:'이메일',site:'현장명',site_name:'현장명',workplace:'현장명',education:'교육명',training:'교육명',course:'교육명',status:'수료상태',result:'결과',score:'점수',signature:'서명',birth:'생년월일',birthdate:'생년월일',birth_date:'생년월일',id:'기록번호',form_name:'양식명'};
+const labelOf=key=>labels[key]||labels[key.toLowerCase().replace(/([a-z])([A-Z])/g,'$1_$2').replace(/[\s-]+/g,'_')]||key;
+const dateKeys=['submitted_at','created_at','completed_at','timestamp','completion_date'];
+function parseDate(record){for(const key of dateKeys){if(record[key]){const d=new Date(record[key]);if(!Number.isNaN(d.getTime()))return d;}}return null;}
+function formatValue(key,value){if(value===null||value===undefined)return '';if(Array.isArray(value))return value.join(', ');if(typeof value==='object')return JSON.stringify(value);if(dateKeys.includes(key)){const d=new Date(value);if(!Number.isNaN(d.getTime()))return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(d);}return String(value);}
+function kstDay(d){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);}
+function safeCSV(value){let s=String(value??'');if(/^[\s\u0000-\u001f]*[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+$('loginForm').addEventListener('submit',async event=>{
+ event.preventDefault();$('loginButton').disabled=true;$('message').textContent='';
+ try{const password=$('password').value;const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({password})});if(!response.ok)throw new Error(response.status===401?'비밀번호가 올바르지 않습니다.':'수료 기록을 불러오지 못했습니다. 서버 설정을 확인해 주세요.');const data=await response.json();if(!Array.isArray(data.records))throw new Error('서버에서 올바른 수료 기록을 받지 못했습니다.');records=data.records;$('password').value='';openDashboard();}catch(error){$('message').textContent=error.message;}finally{$('loginButton').disabled=false;}
+});
+function openDashboard(){
+ $('login').classList.add('hidden');$('dashboard').classList.remove('hidden');$('searchInput').value='';
+ columns=[...new Set(records.flatMap(r=>Object.keys(r)))];
+ records.sort((a,b)=>(parseDate(b)?.getTime()||0)-(parseDate(a)?.getTime()||0));
+ $('totalCount').textContent=records.length.toLocaleString('ko-KR')+'명';
+ const today=kstDay(new Date());$('todayCount').textContent=records.filter(r=>{const d=parseDate(r);return d&&kstDay(d)===today;}).length.toLocaleString('ko-KR')+'명';
+ renderTable();
+}
+function renderTable(){
+ const q=$('searchInput').value.trim().toLocaleLowerCase('ko-KR');
+ visibleRecords=records.filter(record=>!q||columns.some(key=>formatValue(key,record[key]).toLocaleLowerCase('ko-KR').includes(q)));
+ $('resultCount').textContent=q?'검색 결과 '+visibleRecords.length+'건':'총 '+visibleRecords.length+'건';
+ const head=$('tableHead'),body=$('tableBody');head.replaceChildren();body.replaceChildren();
+ if(!records.length||!visibleRecords.length){const tr=document.createElement('tr'),td=document.createElement('td');td.className='empty';td.colSpan=Math.max(columns.length,1);td.textContent=records.length?'검색 결과가 없습니다.':'저장된 수료 기록이 없습니다.';tr.append(td);body.append(tr);return;}
+ const hr=document.createElement('tr');columns.forEach(key=>{const th=document.createElement('th');th.textContent=labelOf(key);hr.append(th);});head.append(hr);
+ const fragment=document.createDocumentFragment();visibleRecords.forEach(record=>{const tr=document.createElement('tr');columns.forEach(key=>{const td=document.createElement('td');td.textContent=formatValue(key,record[key]);tr.append(td);});fragment.append(tr);});body.append(fragment);
+}
+$('searchInput').addEventListener('input',renderTable);
+$('exportButton').addEventListener('click',()=>{
+ if(!visibleRecords.length){alert('다운로드할 수료 기록이 없습니다.');return;}
+ const rows=[columns.map(key=>safeCSV(labelOf(key))).join(','),...visibleRecords.map(record=>columns.map(key=>safeCSV(formatValue(key,record[key]))).join(','))];
+ const blob=new Blob(['\uFEFF'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='안전교육_수료자명단_'+kstDay(new Date())+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+$('logoutButton').addEventListener('click',()=>{records=[];visibleRecords=[];columns=[];$('tableHead').replaceChildren();$('tableBody').replaceChildren();$('dashboard').classList.add('hidden');$('login').classList.remove('hidden');$('password').value='';$('message').textContent='';});
+</script>
 </body>
 </html>
