@@ -69,6 +69,10 @@ exports.handler = async function(event) {
   }
 
   try {
+    const action = input.action || "list";
+    if (action !== "list" && action !== "delete") {
+      return reply(400, { error: "지원하지 않는 요청입니다." });
+    }
     const forms = await netlifyGet(
       `/sites/${encodeURIComponent(siteId)}/forms`,
       token
@@ -89,7 +93,25 @@ exports.handler = async function(event) {
       token
     );
 
+    if (action === "delete") {
+      const submissionId = input.submissionId;
+      if (typeof submissionId !== "string" || !/^[a-zA-Z0-9_-]{1,128}$/.test(submissionId)) {
+        return reply(400, { error: "삭제할 기록 번호가 올바르지 않습니다." });
+      }
+      // Only permit deleting submissions belonging to the training-completions form.
+      if (!submissions.some(item => String(item.id) === submissionId)) {
+        return reply(404, { error: "수료 기록을 찾을 수 없습니다. 새로 로그인한 뒤 다시 시도해 주세요." });
+      }
+      const response = await fetch(`${API_BASE}/submissions/${encodeURIComponent(submissionId)}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
+      });
+      if (!response.ok) throw new Error("Netlify delete API: " + response.status);
+      return reply(200, { success: true, deletedId: submissionId });
+    }
+
     const records = submissions.map(item => ({
+      submission_id: String(item.id),
       submitted_at: item.created_at,
       ...(item.data || {})
     }));
@@ -98,7 +120,7 @@ exports.handler = async function(event) {
   } catch (error) {
     console.error("Admin API error:", error.message);
     return reply(502, {
-      error: "수료 기록 조회에 실패했습니다."
+      error: input.action === "delete" ? "수료 기록 삭제에 실패했습니다. 잠시 후 다시 시도해 주세요." : "수료 기록 조회에 실패했습니다."
     });
   }
 };
