@@ -56,7 +56,7 @@ $('loginForm').addEventListener('submit',async event=>{
 });
 function openDashboard(){
  $('login').classList.add('hidden');$('dashboard').classList.remove('hidden');$('searchInput').value='';
- columns=[...new Set(records.flatMap(r=>Object.keys(r)))].filter(key=>!['education_date','submission_id'].includes(key.trim().toLowerCase()));
+ columns=[...new Set(records.flatMap(r=>Object.keys(r)))].filter(key=>!['education_date','submission_id','training_completed','ip','user_agent','referrer'].includes(key.trim().toLowerCase()));
  records.sort((a,b)=>(parseDate(b)?.getTime()||0)-(parseDate(a)?.getTime()||0));
  $('totalCount').textContent=records.length.toLocaleString('ko-KR')+'명';
  const today=kstDay(new Date());$('todayCount').textContent=records.filter(r=>{const d=parseDate(r);return d&&kstDay(d)===today;}).length.toLocaleString('ko-KR')+'명';
@@ -87,7 +87,7 @@ async function deleteRecord(record,button){
  }catch(error){alert(error.message);button.disabled=false;button.textContent='삭제';}
 }
 function openDashboardPreservingSearch(){
- columns=[...new Set(records.flatMap(r=>Object.keys(r)))].filter(key=>!['education_date','submission_id'].includes(key.trim().toLowerCase()));
+ columns=[...new Set(records.flatMap(r=>Object.keys(r)))].filter(key=>!['education_date','submission_id','training_completed','ip','user_agent','referrer'].includes(key.trim().toLowerCase()));
  $('totalCount').textContent=records.length.toLocaleString('ko-KR')+'명';
  const today=kstDay(new Date());$('todayCount').textContent=records.filter(r=>{const d=parseDate(r);return d&&kstDay(d)===today;}).length.toLocaleString('ko-KR')+'명';
  renderTable();
